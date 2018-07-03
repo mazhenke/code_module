@@ -1,0 +1,26 @@
+---
+# refer below link to read this configuration
+# https://clang.llvm.org/docs/ClangFormatStyleOptions.html
+
+# Use default from the LLVM style
+BasedOnStyle:  LLVM
+
+# below is specifiec our project
+AlignAfterOpenBracket: Align
+
+BinPackArguments: false
+BinPackParameters: false
+BreakBeforeBraces: Linux
+ConstructorInitializerAllOnOneLineOrOnePerLine: true
+ExperimentalAutoDetectBinPacking: true
+IndentWidth: 4
+SpacesBeforeTrailingComments: 2
+BreakBeforeBinaryOperators: NonAssignment
+AlignConsecutiveAssignments: true
+
+AllowShortBlocksOnASingleLine: false
+AllowShortFunctionsOnASingleLine: None
+AllowShortCaseLabelsOnASingleLine: false
+AllowShortIfStatementsOnASingleLine: false
+AllowShortLoopsOnASingleLine: false
+
