@@ -134,4 +134,31 @@ ring_buffer_read(ring_buffer_t *rb, uint8_t *data, uint32_t size)
 
     return total_read_size;
 }
+
+static void ring_buffer_get_linear_data_array(ring_buffer_t *rb,
+                                              uint8_t **ptr1,
+                                              uint32_t *size1,
+                                              uint8_t **ptr2,
+                                              uint32_t *size2)
+{
+    uint32_t read_tail_size = 0;
+    uint32_t read_head_size = 0;
+
+    if (rb->read_idx > rb->write_idx) {
+        read_head_size = rb->write_idx;
+        read_tail_size = RING_BUFFER_DATA_SIZE(rb) - read_head_size;
+        *ptr1          = rb->buf + rb->read_idx;
+        *size1         = read_tail_size;
+        *ptr2          = rb->buf;
+        *size2         = read_head_size;
+    } else {
+        read_tail_size = 0;
+        read_head_size = RING_BUFFER_DATA_SIZE(rb);
+        *ptr1          = rb->buf + rb->read_idx;
+        *size1         = read_head_size;
+        *ptr2          = NULL;
+        *size2         = 0;
+    }
+    return;
+}
 #endif /* __RING_BUFFER_H__ */

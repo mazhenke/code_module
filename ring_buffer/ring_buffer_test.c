@@ -4,7 +4,7 @@
 #include <semaphore.h>
 #include <unistd.h>
 
-#define RING_BUFFER_SIZE (100)
+#define RING_BUFFER_SIZE (20)
 static uint8_t buffer[RING_BUFFER_SIZE];
 
 static uint8_t test_buf0[RING_BUFFER_SIZE * 2];
@@ -60,6 +60,7 @@ int test_rb_v0(void)
     ret = ring_buffer_read(&rb, (uint8_t *)test_buf1, RING_BUFFER_SIZE * 2);
     ASSERT(ret == RING_BUFFER_CAPACITY(&rb));
 
+#if 0
     DBG("Test Write!!!!\n");
     /* test write */
     ring_buffer_init(&rb, buffer, RING_BUFFER_SIZE);
@@ -80,7 +81,9 @@ int test_rb_v0(void)
         }
         DBG("=====================================\n");
     }
+#endif
 
+#if 0
     DBG("Test Read!!!!\n");
     /* test read */
     ring_buffer_init(&rb, buffer, RING_BUFFER_SIZE);
@@ -96,6 +99,34 @@ int test_rb_v0(void)
             paint_point(j, RING_BUFFER_SIZE);
             paint_point(ret, RING_BUFFER_SIZE);
             printf("\n");
+        }
+        DBG("=====================================\n");
+    }
+#endif
+
+    DBG("Test Get linear_data_array!!!!\n");
+    uint8_t *ptr1  = NULL;
+    uint32_t size1 = 0;
+    uint8_t *ptr2  = NULL;
+    uint32_t size2 = 0;
+
+    ring_buffer_init(&rb, buffer, RING_BUFFER_SIZE);
+    for (i = 0; i < RING_BUFFER_SIZE; i++) {
+        DBG("=====================================\n");
+        for (j = 0; j < RING_BUFFER_SIZE; j++) {
+            rb.read_idx  = i;
+            rb.write_idx = j;
+
+            ring_buffer_get_linear_data_array(
+                &rb, &ptr1, &size1, &ptr2, &size2);
+            printf("buf: 0x%x, size: 0x%x, ptr1: 0x%08x, size1: %02d, ptr2: "
+                   "0x%08x, size2: %02d\n",
+                   rb.buf,
+                   rb.size,
+                   ptr1,
+                   size1,
+                   ptr2,
+                   size2);
         }
         DBG("=====================================\n");
     }
@@ -228,5 +259,5 @@ int test_rb_v1(void)
 }
 int main(void)
 {
-    return test_rb_v1();
+    return test_rb_v0();
 }
