@@ -161,4 +161,11 @@ static void ring_buffer_get_linear_data_array(ring_buffer_t *rb,
     }
     return;
 }
+
+static inline void ring_buffer_reset(ring_buffer_t *rb)
+{
+    rb->read_idx  = 0;
+    rb->write_idx = 0;
+    return;
+}
 #endif /* __RING_BUFFER_H__ */
